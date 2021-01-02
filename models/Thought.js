@@ -1,18 +1,18 @@
 const { timeStamp } = require('console');
 const { Schema, model } = require('mongoose');
-const reactionSchema = require('./Reactions') 
+const reactionSchema = require('./Reactions'); 
 
 const ThoughtSchema = new Schema({
     thoughtText: {
         type: String,
         required: "Can't be blank",
         minlength: 1,
-        maxlength: 280,
+        maxlength: 280
     },
     createdAt: {
         type: Date,
         default: Date.now,
-        // get: timeStamp => dateFormat(timeStamp)
+        get: timeStamp => dateFormat(timeStamp)
     },
 
     username: {
@@ -23,7 +23,7 @@ const ThoughtSchema = new Schema({
 },
     {
         toJSON: {
-            getters: true,
+            getters: true
 
         },
         id: false
@@ -31,9 +31,9 @@ const ThoughtSchema = new Schema({
 );
 
 ThoughtSchema.virtual("reactionCount").get(()=>{
-    return this.reactions.length
-})
+    return this.reactions.length;
+});
 
-const Thought = model("Thought",ThoughtSchema)
+const Thought = model("Thought",ThoughtSchema);
 
 module.exports = Thought;
