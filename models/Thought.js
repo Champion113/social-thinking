@@ -1,6 +1,6 @@
 const { timeStamp } = require('console');
 const { Schema, model } = require('mongoose');
-const reactionSchema = require('./Reactions'); 
+const reactionSchema = require('./Reaction'); 
 
 const ThoughtSchema = new Schema({
     thoughtText: {
@@ -31,7 +31,7 @@ const ThoughtSchema = new Schema({
 );
 
 ThoughtSchema.virtual("reactionCount").get(()=>{
-    return this.reactions.length;
+    return this.reaction.length;
 });
 
 const Thought = model("Thought",ThoughtSchema);

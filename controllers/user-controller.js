@@ -5,36 +5,37 @@ const userController = {
     getUsers(req, res) {
         User.find().then(dbUsers => {
             res.json(dbUsers)
-                .catch(error => {
-                    console.log(error)
-                    res.status(500).json(error)
-                })
+        }).catch(error => {
+            console.log(error)
+            res.status(500).json(error)
         })
+
     },
     //get single user by id
     getSingleUser(req, res) {
-        User.findOne({ _id: req.params.userId }).populate("friends").populate("thoughts").then(DBuser => {
+        User.findOne({ _id: req.params.userId }).populate("friends").populate("thoughts").then(dbUsers => {
             if (!dbUsers) {
                 return res.status(404).json({ message: "User doesn't exist" })
 
             }
             res.json(dbUsers)
-                .catch(error => {
-                    console.log(error)
-                    res.status(500).json(error)
-                })
         })
+            .catch(error => {
+                console.log(error)
+                res.status(500).json(error)
+            })
+
 
     },
     //create new user
     createUser(req, res) {
         User.create(req.body).then(dbUsers => {
             res.json(dbUsers)
-                .catch(error => {
-                    console.log(error)
-                    res.status(500).json(error)
-                })
+        }).catch(error => {
+            console.log(error)
+            res.status(500).json(error)
         })
+
     },
     //update user
     updateUser(req, res) {
@@ -44,11 +45,12 @@ const userController = {
 
             }
             res.json(dbUsers)
-                .catch(error => {
-                    console.log(error)
-                    res.status(500).json(error)
-                })
         })
+            .catch(error => {
+                console.log(error)
+                res.status(500).json(error)
+            })
+
     },
     //delete user
     deleteUser(req, res) {
@@ -58,13 +60,41 @@ const userController = {
 
             }
             res.json(dbUsers)
-                .catch(error => {
-                    console.log(error)
-                    res.status(500).json(error)
-                })
         })
-    },
+            .catch(error => {
+                console.log(error)
+                res.status(500).json(error)
+            })
 
+    },
+    //add friend
+    addFriend(req, res) {
+        User.findOneAndUpdate({ _id: req.params.userId }, { $pull: { friends: req.params.friendId } }, { new: true })
+            .then(dbUsers => {
+                if (!dbUsers) {
+                    return res.status(404).json({ message: "User doesn't exist" })
+                }
+                res.json(dbUsers)
+
+            }).catch(error => {
+                console.log(error)
+                res.status(500).json(error)
+            })
+    },
+    //remove friend
+    removeFriend(req, res) {
+        User.findOneAndUpdate({ _id: req.params.userId }, { $pull: { friends: req.params.friendId } }, { new: true })
+            .then(dbUsers => {
+                if (!dbUsers) {
+                    return res.status(404).json({ message: "User doesn't exist" })
+                }
+                res.json(dbUsers)
+
+            }).catch(error => {
+                console.log(error)
+                res.status(500).json(error)
+            })
+    }
 }
 
 
